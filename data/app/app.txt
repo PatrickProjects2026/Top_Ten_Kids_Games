@@ -1,0 +1,32 @@
+
+
+The Goal: A "Math Power" App
+Java will ask for a number, Python will calculate the square of that number, and C++ will double that result.
+
+
+Classic example of Polyglot Programming.
+1.Java acts as the User Interface (the "Boss").
+2.Python acts as the Data Processor (the "Analyst").
+3.C++ acts as the High-Speed Calculator (the "Engine").
+
+1. The C++ "Engine" (engine.cpp)
+This is a simple command-line tool. Compile this into engine.exe.
+
+2. The Python "Analyst" (analyst.py)
+Python will receive a number, square it, and then call the C++ executable to finish the job.
+
+3. The Java "Boss" (Boss.java)
+Java provides the interface and kicks off the whole process.
+
+
+How to Run This on Windows
+1.Compile C++: Open your terminal and run g++ engine.cpp -o engine.exe.
+2.Compile Java: Run javac Boss.java.
+3.Execute: Run java Boss.
+
+
+
+
+
+
+

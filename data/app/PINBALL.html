@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Pinball</title>
+    <style>
+        body { background: #222; display: flex; flex-direction: column; align-items: center; color: white; font-family: sans-serif; }
+        canvas { border: 4px solid #fff; background: #000; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Score: <span id="score">0</span></h1>
+    <canvas id="pinball" width="400" height="600"></canvas>
+    <p>Use <b>Left & Right Arrow Keys</b> to move paddles.</p>
+
+<script>
+    const canvas = document.getElementById("pinball");
+    const ctx = canvas.getContext("2d");
+    const scoreElement = document.getElementById("score");
+
+    let score = 0;
+    let ball = { x: 200, y: 50, dx: 3, dy: 3, radius: 10, speed: 4 };
+    
+    // Paddle settings
+    const paddleW = 80, paddleH = 15;
+    let leftPaddleX = 50, rightPaddleX = 270;
+    const paddleY = 550;
+
+    // Movement state
+    let rightPressed = false, leftPressed = false;
+
+    document.addEventListener("keydown", (e) => {
+        if(e.key === "ArrowRight") rightPressed = true;
+        if(e.key === "ArrowLeft") leftPressed = true;
+    });
+    document.addEventListener("keyup", (e) => {
+        if(e.key === "ArrowRight") rightPressed = false;
+        if(e.key === "ArrowLeft") leftPressed = false;
+    });
+
+    function update() {
+        // Move Paddles
+        if(rightPressed && rightPaddleX < canvas.width - paddleW) rightPaddleX += 7;
+        if(leftPressed && leftPaddleX > 0) leftPaddleX -= 7;
+
+        // Move Ball
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+
+        // Wall Bouncing (Left, Right, Top)
+        if(ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) ball.dx *= -1;
+        if(ball.y - ball.radius < 0) ball.dy *= -1;
+
+        // Paddle Collision Logic
+        checkPaddleCollision(leftPaddleX);
+        checkPaddleCollision(rightPaddleX);
+
+        // Game Over (Bottom)
+        if(ball.y + ball.radius > canvas.height) {
+            alert("Game Over! Score: " + score);
+            document.location.reload();
+        }
+
+        draw();
+        requestAnimationFrame(update);
+    }
+
+    function checkPaddleCollision(px) {
+        if (ball.y + ball.radius > paddleY && 
+            ball.x > px && ball.x < px + paddleW) {
+            
+            ball.dy = -ball.speed; // Bounce up
+            score++;
+            scoreElement.innerText = score;
+            
+            // Increase speed slightly every hit
+            ball.speed += 0.2;
+            ball.dx += (ball.dx > 0 ? 0.2 : -0.2);
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw Ball
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
+        ctx.fillStyle = "#00FF00";
+        ctx.fill();
+        ctx.closePath();
+
+        // Draw Paddles
+        ctx.fillStyle = "#0095DD";
+        ctx.fillRect(leftPaddleX, paddleY, paddleW, paddleH);
+        ctx.fillRect(rightPaddleX, paddleY, paddleW, paddleH);
+    }
+
+    update();
+</script>
+</body>
+</html>

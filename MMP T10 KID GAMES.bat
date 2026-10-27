@@ -1,0 +1,9 @@
+@echo off
+:: ... [Keep your compilation lines for C++ and Java here] ...
+echo [*] Success! Opening Command Center...
+
+
+python launcher.py
+
+
+

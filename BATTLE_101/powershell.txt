@@ -1,0 +1,114 @@
+Since you're already familiar with Python and building games, PowerShell will feel like a "command-line superpower." While Python is for building apps, PowerShell is for **managing your computer**.
+
+Think of it as a way to talk directly to Windows using "Verbs" and "Nouns."
+
+---
+
+### 1. The Anatomy of a Command (Verb-Noun)
+
+PowerShell uses a strict `Verb-Noun` structure. It makes it very easy to guess what a command does.
+
+* `Get-Service`: Shows what's running.
+* `Stop-Process`: Kills a frozen game.
+* `New-Item`: Creates a new file.
+
+### 2. Getting Help (`Get-Help`)
+
+You don't need to memorize everything. Use `Get-Help` followed by any command to see how it works.
+
+```powershell
+Get-Help Get-Process -Examples
+
+```
+
+### 3. Variables (`$`)
+
+In Python, you use `player_name = "Gemini"`. In PowerShell, all variables **must** start with a `$`.
+
+```powershell
+$score = 100
+$tankColor = "Green"
+Write-Host "Your score is $score"
+
+```
+
+### 4. The Pipeline (`|`)
+
+This is PowerShell's greatest feature. It takes the "output" of one command and "pipes" it into the next.
+
+```powershell
+# Get all processes, find "python", and stop them
+Get-Process | Where-Object {$_.Name -eq "python"} | Stop-Process
+
+```
+
+### 5. Objects (Not just Text)
+
+In older command prompts (CMD), everything was just text. In PowerShell, everything is an **Object** with properties, just like your Tank class.
+
+```powershell
+$file = Get-Item "tank_game.py"
+$file.Length   # Returns the file size in bytes
+$file.Extension # Returns ".py"
+
+```
+
+### 6. Logic (If/Else)
+
+PowerShell uses `-eq` (equals), `-gt` (greater than), and `-lt` (less than) instead of symbols like `==` or `>`.
+
+```powershell
+if ($score -gt 500) {
+    Write-Host "High Score!"
+} else {
+    Write-Host "Keep trying."
+}
+
+```
+
+### 7. Loops (`foreach`)
+
+Just like your Python loops for enemies, PowerShell can loop through files or data.
+
+```powershell
+$files = Get-ChildItem  # Gets all files in folder
+foreach ($f in $files) {
+    Write-Host "Checking file: $($f.Name)"
+}
+
+```
+
+### 8. Scripts (`.ps1`)
+
+You save your Python code as `.py`. You save your PowerShell scripts as `.ps1`.
+
+> **Note:** By default, Windows blocks scripts for safety. You usually have to run `Set-ExecutionPolicy RemoteSigned` as an admin to allow your own scripts to run.
+
+### 9. Functions
+
+You can bundle your commands into a reusable function.
+
+```powershell
+function Start-Game {
+    python main_tank.py
+}
+# Now you just type 'Start-Game' to run your project!
+
+```
+
+### 10. Modules
+
+Just like `import pygame`, PowerShell uses `Import-Module`. There are modules for managing the cloud (Azure), Active Directory, and even making music.
+
+---
+
+### Comparison Table: Python vs. PowerShell
+
+| Feature | Python | PowerShell |
+| --- | --- | --- |
+| **Print** | `print("Hi")` | `Write-Host "Hi"` |
+| **Variables** | `name = "x"` | `$name = "x"` |
+| **Comparison** | `if x == 1:` | `if ($x -eq 1) {` |
+| **Comments** | `# This is a comment` | `# This is a comment` |
+
+**Would you like a PowerShell script that automatically backs up your tank game folder to a ZIP file?**
